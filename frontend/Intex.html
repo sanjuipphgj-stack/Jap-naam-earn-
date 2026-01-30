@@ -1,0 +1,1099 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Narayan Naam Jap - Earn Blessings & Rewards</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 450px;
+            margin: 0 auto;
+            background: white;
+            min-height: 100vh;
+            position: relative;
+            box-shadow: 0 0 50px rgba(0,0,0,0.3);
+        }
+
+        /* Auth Pages */
+        .auth-page {
+            padding: 40px 30px;
+            display: none;
+        }
+
+        .auth-page.active {
+            display: block;
+        }
+
+        .logo-section {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .logo-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 40px;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        }
+
+        .app-title {
+            font-size: 28px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .app-subtitle {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .btn-primary {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+            margin-top: 10px;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+        }
+
+        .auth-switch {
+            text-align: center;
+            margin-top: 20px;
+            color: #666;
+        }
+
+        .auth-switch a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        /* Main App */
+        .main-app {
+            display: none;
+            height: 100vh;
+            flex-direction: column;
+        }
+
+        .main-app.active {
+            display: flex;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            color: white;
+        }
+
+        .user-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .user-name {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .logout-btn {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .stats-row {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .stat-box {
+            flex: 1;
+            background: rgba(255,255,255,0.2);
+            padding: 12px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            opacity: 0.9;
+        }
+
+        /* Content Area */
+        .content-area {
+            flex: 1;
+            overflow-y: auto;
+            padding-bottom: 80px;
+        }
+
+        .page-content {
+            display: none;
+            padding: 20px;
+        }
+
+        .page-content.active {
+            display: block;
+        }
+
+        /* Home Page */
+        .jap-container {
+            text-align: center;
+            padding: 30px 0;
+        }
+
+        .jap-circle {
+            width: 250px;
+            height: 250px;
+            margin: 0 auto 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            box-shadow: 0 20px 60px rgba(102, 126, 234, 0.4);
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .jap-circle:hover {
+            transform: scale(1.05);
+        }
+
+        .jap-circle.listening {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                box-shadow: 0 20px 60px rgba(102, 126, 234, 0.4);
+            }
+            50% {
+                box-shadow: 0 20px 80px rgba(102, 126, 234, 0.8);
+            }
+        }
+
+        .jap-icon {
+            font-size: 80px;
+        }
+
+        .mic-status {
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .detected-text {
+            font-size: 24px;
+            color: #667eea;
+            font-weight: 600;
+            min-height: 30px;
+            margin-bottom: 20px;
+        }
+
+        .coin-animation {
+            position: fixed;
+            font-size: 30px;
+            animation: coinFloat 2s ease-out forwards;
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        @keyframes coinFloat {
+            0% {
+                transform: translateY(0) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-200px) scale(1.5);
+                opacity: 0;
+            }
+        }
+
+        .recent-japs {
+            margin-top: 30px;
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 15px;
+        }
+
+        .recent-japs h3 {
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .jap-item {
+            background: white;
+            padding: 12px;
+            margin-bottom: 10px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .jap-time {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .jap-coins {
+            color: #ffa500;
+            font-weight: 600;
+        }
+
+        /* Wallet Page */
+        .wallet-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .wallet-balance {
+            font-size: 48px;
+            font-weight: 700;
+            margin: 10px 0;
+        }
+
+        .wallet-rupees {
+            font-size: 18px;
+            opacity: 0.9;
+        }
+
+        .conversion-info {
+            background: #fff3cd;
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            text-align: center;
+            color: #856404;
+        }
+
+        .transaction-history {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 15px;
+        }
+
+        .transaction-item {
+            background: white;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .transaction-info {
+            flex: 1;
+        }
+
+        .transaction-type {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .transaction-date {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .transaction-amount {
+            font-size: 18px;
+            font-weight: 700;
+            color: #28a745;
+        }
+
+        /* Profile Page */
+        .profile-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .profile-avatar {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            margin: 0 auto 20px;
+        }
+
+        .profile-name {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .profile-email {
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .profile-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .profile-stat {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 12px;
+        }
+
+        .profile-stat-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: #667eea;
+        }
+
+        .profile-stat-label {
+            font-size: 14px;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        .achievements {
+            margin-top: 20px;
+        }
+
+        .achievement-item {
+            background: white;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        .achievement-icon {
+            font-size: 40px;
+        }
+
+        .achievement-info {
+            flex: 1;
+        }
+
+        .achievement-title {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .achievement-desc {
+            font-size: 14px;
+            color: #666;
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 450px;
+            background: white;
+            display: flex;
+            justify-content: space-around;
+            padding: 15px 0;
+            box-shadow: 0 -5px 20px rgba(0,0,0,0.1);
+        }
+
+        .nav-item {
+            flex: 1;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            padding: 5px;
+        }
+
+        .nav-item.active {
+            color: #667eea;
+        }
+
+        .nav-icon {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        .nav-label {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .nav-item.active .nav-label {
+            color: #667eea;
+            font-weight: 600;
+        }
+
+        .permission-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+        }
+
+        .permission-modal.active {
+            display: flex;
+        }
+
+        .permission-content {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            max-width: 350px;
+            margin: 20px;
+            text-align: center;
+        }
+
+        .permission-content h3 {
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .permission-content p {
+            color: #666;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Login Page -->
+        <div id="loginPage" class="auth-page active">
+            <div class="logo-section">
+                <div class="logo-icon"></div>
+                <h1 class="app-title">Narayan Naam Jap</h1>
+                <p class="app-subtitle">Earn blessings while you chant</p>
+            </div>
+            
+            <form id="loginForm">
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="loginEmail" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="loginPassword" placeholder="Enter your password" required>
+                </div>
+                <button type="submit" class="btn-primary">Login</button>
+            </form>
+            
+            <div class="auth-switch">
+                Don't have an account? <a href="#" onclick="showSignup()">Sign Up</a>
+            </div>
+        </div>
+
+        <!-- Signup Page -->
+        <div id="signupPage" class="auth-page">
+            <div class="logo-section">
+                <div class="logo-icon"></div>
+                <h1 class="app-title">Create Account</h1>
+                <p class="app-subtitle">Join the spiritual journey</p>
+            </div>
+            
+            <form id="signupForm">
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" id="signupName" placeholder="Enter your full name" required>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="signupEmail" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="signupPassword" placeholder="Create a password" required>
+                </div>
+                <button type="submit" class="btn-primary">Sign Up</button>
+            </form>
+            
+            <div class="auth-switch">
+                Already have an account? <a href="#" onclick="showLogin()">Login</a>
+            </div>
+        </div>
+
+        <!-- Main App -->
+        <div id="mainApp" class="main-app">
+            <!-- Header -->
+            <div class="header">
+                <div class="user-info">
+                    <div class="user-name" id="userName">Welcome!</div>
+                    <button class="logout-btn" onclick="logout()">Logout</button>
+                </div>
+                <div class="stats-row">
+                    <div class="stat-box">
+                        <div class="stat-value" id="totalCoins">0</div>
+                        <div class="stat-label">Total Coins</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-value" id="totalJaps">0</div>
+                        <div class="stat-label">Total Japs</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-value"><span id="totalRupees">0</span></div>
+                        <div class="stat-label">Total Value</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Content Area -->
+            <div class="content-area">
+                <!-- Home Page -->
+                <div id="homePage" class="page-content active">
+                    <div class="jap-container">
+                        <div class="jap-circle" id="japCircle" onclick="toggleListening()">
+                            <span class="jap-icon" id="japIcon"></span>
+                        </div>
+                        <div class="mic-status" id="micStatus">Tap to start chanting</div>
+                        <div class="detected-text" id="detectedText"></div>
+                    </div>
+
+                    <div class="recent-japs">
+                        <h3>Recent Chants</h3>
+                        <div id="recentJapsList">
+                            <p style="text-align: center; color: #666;">No chants yet. Start now!</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Wallet Page -->
+                <div id="walletPage" class="page-content">
+                    <div class="wallet-header">
+                        <div>Total Balance</div>
+                        <div class="wallet-balance" id="walletCoins">0</div>
+                        <div>Coins</div>
+                        <div class="wallet-rupees"> <span id="walletRupees">0</span></div>
+                    </div>
+
+                    <div class="conversion-info">
+                         100 Coins = 1
+                    </div>
+
+                    <div class="transaction-history">
+                        <h3 style="margin-bottom: 15px;">Transaction History</h3>
+                        <div id="transactionList">
+                            <p style="text-align: center; color: #666;">No transactions yet</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Profile Page -->
+                <div id="profilePage" class="page-content">
+                    <div class="profile-card">
+                        <div class="profile-avatar"></div>
+                        <div class="profile-name" id="profileName">User Name</div>
+                        <div class="profile-email" id="profileEmail">user@example.com</div>
+                        
+                        <div class="profile-stats">
+                            <div class="profile-stat">
+                                <div class="profile-stat-value" id="profileJaps">0</div>
+                                <div class="profile-stat-label">Total Japs</div>
+                            </div>
+                            <div class="profile-stat">
+                                <div class="profile-stat-value" id="profileDays">0</div>
+                                <div class="profile-stat-label">Days Active</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="achievements">
+                        <h3 style="margin-bottom: 15px; padding: 0 5px;">Achievements</h3>
+                        <div class="achievement-item">
+                            <div class="achievement-icon"></div>
+                            <div class="achievement-info">
+                                <div class="achievement-title">First Chant</div>
+                                <div class="achievement-desc">Complete your first Narayan chant</div>
+                            </div>
+                        </div>
+                        <div class="achievement-item">
+                            <div class="achievement-icon"></div>
+                            <div class="achievement-info">
+                                <div class="achievement-title">100 Chants</div>
+                                <div class="achievement-desc">Reach 100 total chants</div>
+                            </div>
+                        </div>
+                        <div class="achievement-item">
+                            <div class="achievement-icon"></div>
+                            <div class="achievement-info">
+                                <div class="achievement-title">Coin Master</div>
+                                <div class="achievement-desc">Earn 1000 coins</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottom Navigation -->
+            <div class="bottom-nav">
+                <div class="nav-item active" onclick="switchPage('home')">
+                    <div class="nav-icon"></div>
+                    <div class="nav-label">Home</div>
+                </div>
+                <div class="nav-item" onclick="switchPage('wallet')">
+                    <div class="nav-icon"></div>
+                    <div class="nav-label">Wallet</div>
+                </div>
+                <div class="nav-item" onclick="switchPage('profile')">
+                    <div class="nav-icon"></div>
+                    <div class="nav-label">Profile</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Permission Modal -->
+        <div id="permissionModal" class="permission-modal">
+            <div class="permission-content">
+                <h3> Microphone Permission</h3>
+                <p>We need access to your microphone to detect when you chant "Narayan"</p>
+                <button class="btn-primary" onclick="requestMicPermission()">Grant Permission</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // App State
+        let currentUser = null;
+        let isListening = false;
+        let recognition = null;
+        let userData = {
+            coins: 0,
+            japs: 0,
+            transactions: [],
+            recentJaps: [],
+            joinDate: new Date().toISOString()
+        };
+
+        // Initialize App
+        window.onload = function() {
+            checkAuthState();
+            initSpeechRecognition();
+        };
+
+        // Auth Functions
+        function checkAuthState() {
+            const user = localStorage.getItem('narayanUser');
+            if (user) {
+                currentUser = JSON.parse(user);
+                loadUserData();
+                showMainApp();
+            }
+        }
+
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            // Simulate login (in real app, this would call backend)
+            const users = JSON.parse(localStorage.getItem('narayanUsers') || '{}');
+            
+            if (users[email] && users[email].password === password) {
+                currentUser = users[email];
+                localStorage.setItem('narayanUser', JSON.stringify(currentUser));
+                loadUserData();
+                showMainApp();
+            } else {
+                alert('Invalid credentials. Please sign up first!');
+            }
+        });
+
+        document.getElementById('signupForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const name = document.getElementById('signupName').value;
+            const email = document.getElementById('signupEmail').value;
+            const password = document.getElementById('signupPassword').value;
+            
+            const users = JSON.parse(localStorage.getItem('narayanUsers') || '{}');
+            
+            if (users[email]) {
+                alert('Email already exists. Please login!');
+                return;
+            }
+            
+            users[email] = {
+                name: name,
+                email: email,
+                password: password,
+                joinDate: new Date().toISOString()
+            };
+            
+            localStorage.setItem('narayanUsers', JSON.stringify(users));
+            
+            currentUser = users[email];
+            localStorage.setItem('narayanUser', JSON.stringify(currentUser));
+            
+            // Initialize user data
+            userData = {
+                coins: 0,
+                japs: 0,
+                transactions: [],
+                recentJaps: [],
+                joinDate: new Date().toISOString()
+            };
+            saveUserData();
+            
+            showMainApp();
+        });
+
+        function showLogin() {
+            document.getElementById('signupPage').classList.remove('active');
+            document.getElementById('loginPage').classList.add('active');
+        }
+
+        function showSignup() {
+            document.getElementById('loginPage').classList.remove('active');
+            document.getElementById('signupPage').classList.add('active');
+        }
+
+        function showMainApp() {
+            document.getElementById('loginPage').classList.remove('active');
+            document.getElementById('signupPage').classList.remove('active');
+            document.getElementById('mainApp').classList.add('active');
+            
+            document.getElementById('userName').textContent = currentUser.name;
+            document.getElementById('profileName').textContent = currentUser.name;
+            document.getElementById('profileEmail').textContent = currentUser.email;
+            
+            updateUI();
+        }
+
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                saveUserData();
+                localStorage.removeItem('narayanUser');
+                currentUser = null;
+                isListening = false;
+                if (recognition) recognition.stop();
+                
+                document.getElementById('mainApp').classList.remove('active');
+                document.getElementById('loginPage').classList.add('active');
+            }
+        }
+
+        // Data Management
+        function loadUserData() {
+            const saved = localStorage.getItem('narayanData_' + currentUser.email);
+            if (saved) {
+                userData = JSON.parse(saved);
+            }
+        }
+
+        function saveUserData() {
+            if (currentUser) {
+                localStorage.setItem('narayanData_' + currentUser.email, JSON.stringify(userData));
+            }
+        }
+
+        // Speech Recognition
+        function initSpeechRecognition() {
+            if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+                recognition = new SpeechRecognition();
+                
+                recognition.continuous = true;
+                recognition.interimResults = true;
+                recognition.lang = 'hi-IN';
+                
+                recognition.onresult = function(event) {
+                    let finalTranscript = '';
+                    
+                    for (let i = event.resultIndex; i < event.results.length; i++) {
+                        const transcript = event.results[i][0].transcript.toLowerCase();
+                        
+                        if (event.results[i].isFinal) {
+                            finalTranscript += transcript;
+                        }
+                        
+                        document.getElementById('detectedText').textContent = transcript;
+                        
+                        if (transcript.includes('narayan') || transcript.includes('')) {
+                            addJapCoins();
+                        }
+                    }
+                };
+                
+                recognition.onerror = function(event) {
+                    console.error('Speech recognition error:', event.error);
+                    if (event.error === 'not-allowed') {
+                        document.getElementById('micStatus').textContent = 'Microphone permission denied';
+                        stopListening();
+                    }
+                };
+            } else {
+                alert('Speech recognition not supported in this browser. Please use Chrome or Edge.');
+            }
+        }
+
+        function toggleListening() {
+            if (!currentUser) return;
+            
+            if (isListening) {
+                stopListening();
+            } else {
+                startListening();
+            }
+        }
+
+        function startListening() {
+            if (!recognition) {
+                document.getElementById('permissionModal').classList.add('active');
+                return;
+            }
+            
+            try {
+                recognition.start();
+                isListening = true;
+                document.getElementById('japCircle').classList.add('listening');
+                document.getElementById('micStatus').textContent = 'Listening... Say "Narayan"';
+                document.getElementById('japIcon').textContent = '';
+            } catch (e) {
+                console.error('Error starting recognition:', e);
+            }
+        }
+
+        function stopListening() {
+            if (recognition) {
+                recognition.stop();
+            }
+            isListening = false;
+            document.getElementById('japCircle').classList.remove('listening');
+            document.getElementById('micStatus').textContent = 'Tap to start chanting';
+            document.getElementById('japIcon').textContent = '';
+            document.getElementById('detectedText').textContent = '';
+        }
+
+        function requestMicPermission() {
+            navigator.mediaDevices.getUserMedia({ audio: true })
+                .then(function(stream) {
+                    stream.getTracks().forEach(track => track.stop());
+                    document.getElementById('permissionModal').classList.remove('active');
+                    initSpeechRecognition();
+                    startListening();
+                })
+                .catch(function(err) {
+                    alert('Microphone permission denied. Please enable it in browser settings.');
+                });
+        }
+
+        // Coin Management
+        function addJapCoins() {
+            userData.coins += 1;
+            userData.japs += 1;
+            
+            const now = new Date();
+            userData.recentJaps.unshift({
+                time: now.toLocaleTimeString(),
+                date: now.toLocaleDateString(),
+                coins: 1
+            });
+            
+            if (userData.recentJaps.length > 10) {
+                userData.recentJaps.pop();
+            }
+            
+            userData.transactions.unshift({
+                type: 'Narayan Chant',
+                amount: 1,
+                date: now.toLocaleString(),
+                timestamp: now.getTime()
+            });
+            
+            saveUserData();
+            updateUI();
+            showCoinAnimation();
+            
+            // Play sound or vibration
+            if (navigator.vibrate) {
+                navigator.vibrate(100);
+            }
+        }
+
+        function showCoinAnimation() {
+            const coin = document.createElement('div');
+            coin.className = 'coin-animation';
+            coin.textContent = ' +1';
+            coin.style.left = '50%';
+            coin.style.top = '40%';
+            document.body.appendChild(coin);
+            
+            setTimeout(() => {
+                coin.remove();
+            }, 2000);
+        }
+
+        // UI Updates
+        function updateUI() {
+            const rupees = (userData.coins / 100).toFixed(2);
+            
+            document.getElementById('totalCoins').textContent = userData.coins;
+            document.getElementById('totalJaps').textContent = userData.japs;
+            document.getElementById('totalRupees').textContent = rupees;
+            
+            document.getElementById('walletCoins').textContent = userData.coins;
+            document.getElementById('walletRupees').textContent = rupees;
+            
+            document.getElementById('profileJaps').textContent = userData.japs;
+            
+            const joinDate = new Date(userData.joinDate);
+            const today = new Date();
+            const daysActive = Math.floor((today - joinDate) / (1000 * 60 * 60 * 24));
+            document.getElementById('profileDays').textContent = daysActive;
+            
+            updateRecentJaps();
+            updateTransactions();
+        }
+
+        function updateRecentJaps() {
+            const list = document.getElementById('recentJapsList');
+            
+            if (userData.recentJaps.length === 0) {
+                list.innerHTML = '<p style="text-align: center; color: #666;">No chants yet. Start now!</p>';
+                return;
+            }
+            
+            list.innerHTML = userData.recentJaps.map(jap => `
+                <div class="jap-item">
+                    <div>
+                        <div style="font-weight: 600;">Narayan Chant</div>
+                        <div class="jap-time">${jap.time} - ${jap.date}</div>
+                    </div>
+                    <div class="jap-coins">+${jap.coins} </div>
+                </div>
+            `).join('');
+        }
+
+        function updateTransactions() {
+            const list = document.getElementById('transactionList');
+            
+            if (userData.transactions.length === 0) {
+                list.innerHTML = '<p style="text-align: center; color: #666;">No transactions yet</p>';
+                return;
+            }
+            
+            list.innerHTML = userData.transactions.slice(0, 20).map(tx => `
+                <div class="transaction-item">
+                    <div class="transaction-info">
+                        <div class="transaction-type">${tx.type}</div>
+                        <div class="transaction-date">${tx.date}</div>
+                    </div>
+                    <div class="transaction-amount">+${tx.amount} </div>
+                </div>
+            `).join('');
+        }
+
+        // Navigation
+        function switchPage(page) {
+            if (!currentUser) return;
+            
+            // Update active states
+            document.querySelectorAll('.page-content').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            
+            document.getElementById(page + 'Page').classList.add('active');
+            event.currentTarget.classList.add('active');
+            
+            // Stop listening when switching pages
+            if (page !== 'home' && isListening) {
+                stopListening();
+            }
+        }
+
+        // Save data before page unload
+        window.addEventListener('beforeunload', function() {
+            saveUserData();
+        });
+    </script>
+</body>
+</html>
